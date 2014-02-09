@@ -60,11 +60,10 @@ def pick_winner():
         time.sleep(3)
         del candidates[random.randrange(0,2)]
         print
-        print
-        print
         print "The winner is:"
         time.sleep(2)
         print candidates[0].strip()
+        print
 
 if __name__ == "__main__":
     pick_winner()
