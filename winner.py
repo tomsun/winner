@@ -48,7 +48,7 @@ def pick_winner():
             loser = random.randrange(0, len(candidates))
             print "Did not win: %s" % candidates[loser].strip()
             del candidates[loser]
-            print "Remaining: %s" % candidates
+            print "Remaining: %d" % len(candidates)
             time.sleep(0.2)
 
         time.sleep(3)
