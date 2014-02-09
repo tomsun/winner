@@ -51,6 +51,12 @@ def pick_winner():
             print "Remaining: %d" % len(candidates)
             time.sleep(0.2)
 
+        print
+        print "Final round:"
+        print candidates[0].strip()
+        print "VS"
+        print candidates[1].strip()
+
         time.sleep(3)
         del candidates[random.randrange(0,2)]
         print
