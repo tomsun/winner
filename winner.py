@@ -42,11 +42,11 @@ def pick_winner():
 
     try:
         while True:
-            print candidates[random.randrange(0, len(candidates))]
+            print candidates[random.randrange(0, len(candidates))].strip()
     except KeyboardInterrupt:
         while len(candidates) > 2:
             loser = random.randrange(0, len(candidates))
-            print "Did not win: %s" % candidates[loser]
+            print "Did not win: %s" % candidates[loser].strip()
             del candidates[loser]
             print "Remaining: %s" % candidates
             time.sleep(0.2)
@@ -58,7 +58,7 @@ def pick_winner():
         print
         print "The winner is:"
         time.sleep(2)
-        print candidates[0]
+        print candidates[0].strip()
 
 if __name__ == "__main__":
     pick_winner()
