@@ -61,7 +61,7 @@ def pick_winner():
         del candidates[random.randrange(0,2)]
         print
         print "The winner is:"
-        time.sleep(2)
+        time.sleep(3)
         print candidates[0].strip()
         print
 
