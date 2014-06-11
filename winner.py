@@ -72,7 +72,7 @@ def pick_winner(args):
             else:
                 print name
     except KeyboardInterrupt:
-        while len(candidates) > 2:
+        while len(candidates) > args.winner_count + 1:
             if args.clear_screen:
                 clear()
             loser = random.randrange(0, len(candidates))
@@ -89,22 +89,28 @@ def pick_winner(args):
                     print ", ".join([c.strip() for c in candidates])
             time.sleep(0.2)
 
-        print
-        if args.clear_screen:
-            clear()
-        print t("Final round:")
-        print candidates[0].strip()
-        print t("VS")
-        print candidates[1].strip()
+        if args.winner_count == 1:
+            print
+            if args.clear_screen:
+                clear()
+            print t("Final round:")
+            print candidates[0].strip()
+            print t("VS")
+            print candidates[1].strip()
 
-        time.sleep(3)
+            time.sleep(3)
+
         del candidates[random.randrange(0,2)]
         print
         if args.clear_screen:
             clear()
-        print t("The winner is:")
+        if args.winner_count == 1:
+            print t("The winner is:")
+        else:
+            print t("The winners are:")
         time.sleep(3)
-        print candidates[0].strip()
+        for winner in candidates:
+            print winner.strip()
         print
 
 if __name__ == "__main__":
@@ -115,6 +121,7 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--truncate-names', action="store_true")
     parser.add_argument('-c', '--clear-screen', action="store_true")
     parser.add_argument('-r', '--show-remaining', action="store_true")
+    parser.add_argument('-w', '--winner-count', type=int, default=1)
     args = parser.parse_args()
     if args.lang:
         lang_strs = json.loads(codecs.open("%s.json" % args.lang, "r", "utf-8").read())

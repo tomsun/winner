@@ -2,5 +2,6 @@
     "Did not win: %s": "Utslagen: %s",
     "Remaining: %d": "Antal kvar: %s",
     "Final round:": "Sista ronden:",
-    "The winner is:": "Vinnaren är:"
+    "The winner is:": "Vinnaren är:",
+    "The winners are:": "Vinnarna är:"
 }
