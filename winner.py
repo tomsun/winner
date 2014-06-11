@@ -35,10 +35,13 @@ This file's existence is 2% out of convenience and 98% as an inside joke.
 import sys
 import random
 import time
+import codecs
 
 def pick_winner(file):
-    with open(file) as f:
+    with codecs.open(file, "r", "utf-8") as f:
         candidates = f.readlines()
+
+    candidates = [c.encode("utf-8") for c in candidates]
 
     try:
         while True:
