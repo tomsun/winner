@@ -44,8 +44,8 @@ def t(string):
         return lang_strs[string].encode("utf-8")
     return string
 
-def pick_winner(file):
-    with codecs.open(file, "r", "utf-8") as f:
+def pick_winner(args):
+    with codecs.open(args.file, "r", "utf-8") as f:
         candidates = f.readlines()
 
     candidates = [c.encode("utf-8") for c in candidates]
@@ -84,4 +84,4 @@ if __name__ == "__main__":
     if args.lang:
         lang_strs = json.loads(codecs.open("%s.json" % args.lang, "r", "utf-8").read())
 
-    pick_winner(args.file)
+    pick_winner(args)
