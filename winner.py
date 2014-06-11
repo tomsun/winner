@@ -44,6 +44,11 @@ def t(string):
         return lang_strs[string].encode("utf-8")
     return string
 
+def first_name(name):
+    if name.find(" ") == -1:
+        return name
+    return name[0:name.find(" ")]
+
 def pick_winner(args):
     with codecs.open(args.file, "r", "utf-8") as f:
         candidates = f.readlines()
@@ -52,11 +57,18 @@ def pick_winner(args):
 
     try:
         while True:
-            print candidates[random.randrange(0, len(candidates))].strip()
+            name = candidates[random.randrange(0, len(candidates))].strip()
+            if args.truncate_names:
+                print first_name(name)
+            else:
+                print name
     except KeyboardInterrupt:
         while len(candidates) > 2:
             loser = random.randrange(0, len(candidates))
-            print t("Did not win: %s") % candidates[loser].strip()
+            if args.truncate_names:
+                print t("Did not win: %s") % first_name(candidates[loser].strip())
+            else:
+                print t("Did not win: %s") % candidates[loser].strip()
             del candidates[loser]
             print t("Remaining: %d") % len(candidates)
             time.sleep(0.2)
@@ -80,6 +92,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('file', metavar='f')
     parser.add_argument('-l', '--lang')
+    parser.add_argument('-t', '--truncate-names', action="store_true")
     args = parser.parse_args()
     if args.lang:
         lang_strs = json.loads(codecs.open("%s.json" % args.lang, "r", "utf-8").read())
