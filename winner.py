@@ -36,8 +36,8 @@ import sys
 import random
 import time
 
-def pick_winner():
-    with open(sys.argv[1]) as f:
+def pick_winner(file):
+    with open(file) as f:
         candidates = f.readlines()
 
     try:
@@ -66,4 +66,8 @@ def pick_winner():
         print
 
 if __name__ == "__main__":
-    pick_winner()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('file', metavar='f')
+    args = parser.parse_args()
+    pick_winner(args.file)
