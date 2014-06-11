@@ -32,6 +32,7 @@ Picks a winner from a set of candidates in a text file (one candidate per line).
 This file's existence is 2% out of convenience and 98% as an inside joke.
 """
 
+import os
 import sys
 import random
 import time
@@ -49,6 +50,14 @@ def first_name(name):
         return name
     return name[0:name.find(" ")]
 
+def clear():
+    if os.name == "posix":
+        os.system("clear")
+    elif os.name in ("nt", "dos", "ce"):
+        os.system("CLS")
+    else:
+        print "\n" * 80
+
 def pick_winner(args):
     with codecs.open(args.file, "r", "utf-8") as f:
         candidates = f.readlines()
@@ -64,6 +73,8 @@ def pick_winner(args):
                 print name
     except KeyboardInterrupt:
         while len(candidates) > 2:
+            if args.clear_screen:
+                clear()
             loser = random.randrange(0, len(candidates))
             if args.truncate_names:
                 print t("Did not win: %s") % first_name(candidates[loser].strip())
@@ -74,6 +85,8 @@ def pick_winner(args):
             time.sleep(0.2)
 
         print
+        if args.clear_screen:
+            clear()
         print t("Final round:")
         print candidates[0].strip()
         print t("VS")
@@ -82,6 +95,8 @@ def pick_winner(args):
         time.sleep(3)
         del candidates[random.randrange(0,2)]
         print
+        if args.clear_screen:
+            clear()
         print t("The winner is:")
         time.sleep(3)
         print candidates[0].strip()
@@ -93,6 +108,7 @@ if __name__ == "__main__":
     parser.add_argument('file', metavar='f')
     parser.add_argument('-l', '--lang')
     parser.add_argument('-t', '--truncate-names', action="store_true")
+    parser.add_argument('-c', '--clear-screen', action="store_true")
     args = parser.parse_args()
     if args.lang:
         lang_strs = json.loads(codecs.open("%s.json" % args.lang, "r", "utf-8").read())
