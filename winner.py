@@ -82,6 +82,11 @@ def pick_winner(args):
                 print t("Did not win: %s") % candidates[loser].strip()
             del candidates[loser]
             print t("Remaining: %d") % len(candidates)
+            if args.show_remaining:
+                if args.truncate_names:
+                    print ", ".join([first_name(c.strip()) for c in candidates])
+                else:
+                    print ", ".join([c.strip() for c in candidates])
             time.sleep(0.2)
 
         print
@@ -109,6 +114,7 @@ if __name__ == "__main__":
     parser.add_argument('-l', '--lang')
     parser.add_argument('-t', '--truncate-names', action="store_true")
     parser.add_argument('-c', '--clear-screen', action="store_true")
+    parser.add_argument('-r', '--show-remaining', action="store_true")
     args = parser.parse_args()
     if args.lang:
         lang_strs = json.loads(codecs.open("%s.json" % args.lang, "r", "utf-8").read())
