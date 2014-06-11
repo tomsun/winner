@@ -83,10 +83,14 @@ def pick_winner(args):
             del candidates[loser]
             print t("Remaining: %d") % len(candidates)
             if args.show_remaining:
+                rem_str = ""
                 if args.truncate_names:
-                    print ", ".join([first_name(c.strip()) for c in candidates])
+                    rem_str = ", ".join([first_name(c.strip()) for c in candidates])
                 else:
-                    print ", ".join([c.strip() for c in candidates])
+                    rem_str = ", ".join([c.strip() for c in candidates])
+                if args.truncate_remaining and len(rem_str) > args.truncate_remaining:
+                    rem_str = rem_str[0:args.truncate_remaining] + " ..."
+                print rem_str
             time.sleep(0.2)
 
         if args.winner_count == 1:
@@ -121,6 +125,7 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--truncate-names', action="store_true")
     parser.add_argument('-c', '--clear-screen', action="store_true")
     parser.add_argument('-r', '--show-remaining', action="store_true")
+    parser.add_argument('-u', '--truncate-remaining', type=int)
     parser.add_argument('-w', '--winner-count', type=int, default=1)
     args = parser.parse_args()
     if args.lang:
