@@ -36,6 +36,13 @@ import sys
 import random
 import time
 import codecs
+import json
+
+lang_strs = {}
+def t(string):
+    if string in lang_strs:
+        return lang_strs[string].encode("utf-8")
+    return string
 
 def pick_winner(file):
     with codecs.open(file, "r", "utf-8") as f:
@@ -49,21 +56,21 @@ def pick_winner(file):
     except KeyboardInterrupt:
         while len(candidates) > 2:
             loser = random.randrange(0, len(candidates))
-            print "Did not win: %s" % candidates[loser].strip()
+            print t("Did not win: %s") % candidates[loser].strip()
             del candidates[loser]
-            print "Remaining: %d" % len(candidates)
+            print t("Remaining: %d") % len(candidates)
             time.sleep(0.2)
 
         print
-        print "Final round:"
+        print t("Final round:")
         print candidates[0].strip()
-        print "VS"
+        print t("VS")
         print candidates[1].strip()
 
         time.sleep(3)
         del candidates[random.randrange(0,2)]
         print
-        print "The winner is:"
+        print t("The winner is:")
         time.sleep(3)
         print candidates[0].strip()
         print
@@ -72,5 +79,9 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('file', metavar='f')
+    parser.add_argument('-l', '--lang')
     args = parser.parse_args()
+    if args.lang:
+        lang_strs = json.loads(codecs.open("%s.json" % args.lang, "r", "utf-8").read())
+
     pick_winner(args.file)
